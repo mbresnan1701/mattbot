@@ -22,10 +22,10 @@ public class Main {
     Twitter twitter = tf.getInstance();
 
 
-//    Scanner sc = new Scanner(new File("tweets.txt"));
     ArrayList<String> upcoming = new ArrayList<String>();
+    System.out.println(System.getProperty("user.dir"));
     try {
-      File tweetfile = new File("/Users/mbresnan/Development/Java/tweets.txt");
+      File tweetfile = new File(System.getProperty("user.dir") + "/tweets.txt");
 
       Scanner input = new Scanner(tweetfile);
 
@@ -39,11 +39,14 @@ public class Main {
     }
 
     int tweeted = 0;
-    while(tweeted < upcoming.size()) {
+    while(true) {
       Status status = twitter.updateStatus(upcoming.get(tweeted));
       //if tweet success
       System.out.println("Tweet successful");
       tweeted++;
+      if(tweeted == upcoming.size()) {
+        break;
+      }
       try {
         System.out.println("Sleeping...");
         Thread.sleep(1000 * 60 * 15);
