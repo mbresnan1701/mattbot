@@ -6,24 +6,33 @@ import twitter4j.TwitterException;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by mbresnan on 10/12/16.
  */
 
-class Tweeter {
+class Tweeter implements Runnable {
   private ArrayList<String> upcoming;
   private Twitter twitter;
   private String tweetDir;
 
-  public Tweeter(Twitter t, String dir) {
+  Tweeter(Twitter t, String dir) {
     upcoming = new ArrayList<String>();
     twitter = t;
     tweetDir = dir;
   }
 
-  public void startTweeting() throws TwitterException {
+  @Override
+  public void run() {
+    try {
+      startTweeting();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  void startTweeting() throws TwitterException {
     try {
       System.out.println(tweetDir);
       File tweetfile = new File(tweetDir);
@@ -35,30 +44,30 @@ class Tweeter {
       }
       input.close();
 
-    } catch (Exception ex) {
-      ex.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     int tweeted = 0;
     while (true) {
       Status status = twitter.updateStatus(upcoming.get(tweeted));
       //if tweet success
-      System.out.println("Tweet successful");
       tweeted++;
+      System.out.printf("Tweet %d/%d successful\n", tweeted, upcoming.size());
+
       if (tweeted == upcoming.size()) {
         break;
       }
       try {
-        System.out.println("Sleeping...");
+        System.out.println("Tweeter sleeping...");
         Thread.sleep(1000 * 60 * 15);
-        System.out.println("Done sleeping, no interrupt.");
+        System.out.println("Tweeter woke up. Back to work. ");
       } catch (InterruptedException e) {
         System.out.println("I was interrupted!");
         e.printStackTrace();
       }
     }
 
-    //print a message so we know when it finishes
     System.out.println("All messages have been tweeted. Time to add more!");
   }
 

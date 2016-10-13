@@ -21,9 +21,10 @@ public class Main {
     TwitterFactory tf = new TwitterFactory(cb.build());
     Twitter twitter = tf.getInstance();
 
-    Tweeter myTweeter = new Tweeter(twitter, System.getProperty("user.dir") + "/tweets.txt");
+//    Tweeter myTweeter = new Tweeter(twitter, System.getProperty("user.dir") + "/tweets.txt");
 
-    myTweeter.startTweeting();
+    Thread tweeterThread = new Thread(new Tweeter(twitter, System.getProperty("user.dir") + "/tweets.txt"));
 
+    tweeterThread.start();
   }
 }
