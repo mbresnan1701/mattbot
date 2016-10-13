@@ -9,7 +9,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.*;
 
 
@@ -36,7 +35,7 @@ class Tweeter implements Runnable {
     }
   }
 
-  void startTweeting() throws TwitterException {
+  private void startTweeting() throws TwitterException {
     try {
       System.out.println(tweetDir);
       File tweetfile = new File(tweetDir);
