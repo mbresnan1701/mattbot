@@ -1,5 +1,9 @@
 package com.company;
 
+/**
+ * Created by mbresnan on 10/12/16.
+ */
+
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -8,19 +12,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.*;
 
-/**
- * Created by mbresnan on 10/12/16.
- */
+
 
 class Tweeter implements Runnable {
   private ArrayList<String> upcoming;
   private Twitter twitter;
   private String tweetDir;
+  private int sleepTime;
 
-  Tweeter(Twitter t, String dir) {
+  Tweeter(Twitter t, String dir, int min) {
     upcoming = new ArrayList<String>();
     twitter = t;
     tweetDir = dir;
+    sleepTime = min;
   }
 
   @Override
@@ -60,7 +64,7 @@ class Tweeter implements Runnable {
       }
       try {
         System.out.println("Tweeter sleeping...");
-        Thread.sleep(1000 * 60 * 15);
+        Thread.sleep(1000 * 60 * sleepTime);
         System.out.println("Tweeter woke up. Back to work. ");
       } catch (InterruptedException e) {
         System.out.println("I was interrupted!");
