@@ -21,43 +21,9 @@ public class Main {
     TwitterFactory tf = new TwitterFactory(cb.build());
     Twitter twitter = tf.getInstance();
 
+    Tweeter myTweeter = new Tweeter(twitter, System.getProperty("user.dir") + "/tweets.txt");
 
-    ArrayList<String> upcoming = new ArrayList<String>();
-    System.out.println(System.getProperty("user.dir"));
-    try {
-      File tweetfile = new File(System.getProperty("user.dir") + "/tweets.txt");
+    myTweeter.startTweeting();
 
-      Scanner input = new Scanner(tweetfile);
-
-      while (input.hasNextLine()) {
-        upcoming.add(input.nextLine());
-      }
-      input.close();
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-
-    int tweeted = 0;
-    while(true) {
-      Status status = twitter.updateStatus(upcoming.get(tweeted));
-      //if tweet success
-      System.out.println("Tweet successful");
-      tweeted++;
-      if(tweeted == upcoming.size()) {
-        break;
-      }
-      try {
-        System.out.println("Sleeping...");
-        Thread.sleep(1000 * 60 * 15);
-        System.out.println("Done sleeping, no interrupt.");
-      } catch (InterruptedException e) {
-        System.out.println("I was interrupted!");
-        e.printStackTrace();
-      }
-    }
-
-    //print a message so we know when it finishes
-    System.out.println("All messages have been tweeted. Time to add more!");
   }
 }
